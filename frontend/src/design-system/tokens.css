@@ -1,0 +1,53 @@
+:root {
+  /* Muted, field-equipment palette */
+  --paper:        #E3E1D8;  /* page background — concrete/khaki */
+  --surface:      #EDECE5;  /* panels, table rows */
+  --surface-alt:  #D6D4C9;  /* zebra rows, table headers */
+  --ink:          #1B1E19;  /* primary text */
+  --ink-muted:    #5A5E52;  /* secondary text, labels */
+  --line:         #2A2D26;  /* strong borders */
+  --line-soft:    #A8A89A;  /* hairlines */
+
+  --olive:        #4B5236;  /* primary action */
+  --olive-dark:   #333825;
+  --steel:        #4A5560;  /* secondary / info */
+  --amber:        #B07818;  /* warning, focus ring */
+  --red:          #8E2B22;  /* error, overdue, destructive */
+  --green:        #3E5B34;  /* ok, paid, active */
+
+  --font-mono:    "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
+  --font-sans:    "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
+
+  --radius: 0px;            /* ALWAYS zero */
+  --grid: 8px;              /* base spacing unit */
+}
+
+/* Base resets for utilitarian language */
+* {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+}
+
+/* Focus styles: 2px solid --amber outline with 2px offset */
+:focus-visible {
+  outline: 2px solid var(--amber) !important;
+  outline-offset: 2px !important;
+}
+
+/* Tabular nums for all data & numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

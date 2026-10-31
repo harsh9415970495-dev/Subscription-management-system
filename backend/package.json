@@ -1,0 +1,52 @@
+{
+  "name": "@brightloop/backend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "nest build",
+    "dev": "nest start --watch",
+    "start": "node dist/main",
+    "lint": "eslint \"src/**/*.ts\" \"test/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:rls": "vitest run test/rls-enforcement.spec.ts",
+    "check:boundaries": "depcruise src --config .dependency-cruiser.cjs",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/shared/database/run-migrations.ts"
+  },
+  "dependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/swagger": "^11.0.1",
+    "argon2": "^0.41.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.3",
+    "nodemailer": "^6.10.0",
+    "pg-boss": "^10.1.4",
+    "postgres": "^3.4.5",
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.1",
+    "swagger-ui-express": "^5.0.1",
+    "uuidv7": "^1.0.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.1",
+    "@nestjs/schematics": "^11.0.1",
+    "@nestjs/testing": "^11.0.1",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.0",
+    "@types/nodemailer": "^6.4.17",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "dependency-cruiser": "^16.10.0",
+    "drizzle-kit": "^0.30.4",
+    "eslint": "^9.19.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.4"
+  }
+}

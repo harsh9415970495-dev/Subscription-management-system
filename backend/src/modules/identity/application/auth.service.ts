@@ -26,6 +26,7 @@ import {
 } from '../infrastructure/schema';
 import { PasswordHasher } from './password-hasher.service';
 import { TokenService } from '../../../shared/auth';
+import { EmailService } from '../../../shared/email/email.service';
 
 export interface AuthResponse {
   accessToken: string;
@@ -47,6 +48,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
     private readonly customersFacade: CustomersFacade,
     private readonly auditFacade: AuditFacade,
+    private readonly emailService: EmailService,
   ) {}
 
   async register(dto: RegisterDto): Promise<AuthResponse> {
@@ -324,7 +326,7 @@ export class AuthService {
       entityId: user.id,
     });
 
-    console.log(`[Mailpit] Password reset token dispatched for ${user.email}: ${rawToken}`);
+    await this.emailService.sendPasswordResetEmail(user.email, rawToken);
 
     return {
       message: 'If an account exists with this email, a password reset link has been dispatched.',

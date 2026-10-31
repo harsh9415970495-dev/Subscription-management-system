@@ -3,22 +3,27 @@
 @tailwind utilities;
 
 :root {
-  /* Utilitarian Light Mode Palette (Field-equipment concrete/khaki) */
-  --paper:        #E3E1D8;  /* page background — concrete/khaki */
-  --surface:      #EDECE5;  /* panels, table rows */
-  --surface-alt:  #D6D4C9;  /* zebra rows, table headers */
-  --input-bg:     #F5F4EE;  /* form inputs */
-  --ink:          #1B1E19;  /* primary text */
-  --ink-muted:    #5A5E52;  /* secondary text, labels */
-  --line:         #2A2D26;  /* strong borders */
-  --line-soft:    #A8A89A;  /* hairlines */
+  /* Utilitarian Light Mode Palette (Precision Engineered Concrete & Industrial Hues) */
+  --paper:        #E5E3DA;  /* page background — concrete/khaki */
+  --surface:      #EEECE4;  /* panels, table rows */
+  --surface-alt:  #DCD9CD;  /* zebra rows, table headers */
+  --input-bg:     #F7F6F1;  /* form inputs */
+  --ink:          #161914;  /* primary high-contrast text */
+  --ink-muted:    #505547;  /* secondary technical text */
+  --line:         #232620;  /* strong technical borders */
+  --line-soft:    #A0A294;  /* hairlines */
 
-  --olive:        #4B5236;  /* primary action */
-  --olive-dark:   #333825;
-  --steel:        #4A5560;  /* secondary / info */
-  --amber:        #B07818;  /* warning, focus ring */
-  --red:          #8E2B22;  /* error, overdue, destructive */
-  --green:        #3E5B34;  /* ok, paid, active */
+  /* High-Precision Consistent Functional Accents */
+  --olive:        #434B2F;  /* primary corporate military olive */
+  --olive-dark:   #2E3420;
+  --steel:        #3E4C59;  /* secondary slate */
+  --cyan:         #007A87;  /* telemetry, IDs, tech metrics */
+  --cobalt:       #1D4ED8;  /* contracts, quotations, references */
+  --emerald:      #15803D;  /* confirmed, active, paid */
+  --amber:        #B45309;  /* warnings, pending, draft */
+  --red:          #B91C1C;  /* overdue, cancelled, alerts */
+  --green:        #15803D;
+  --purple:       #7C3AED;  /* security tokens, rbac, cryptographic signatures */
 
   --font-mono:    "IBM Plex Mono", "JetBrains Mono", ui-monospace, monospace;
   --font-sans:    "IBM Plex Sans Condensed", "Arial Narrow", sans-serif;
@@ -29,22 +34,27 @@
 
 :root[data-theme="dark"],
 .dark {
-  /* Utilitarian High-Precision Dark Mode (Tactical Radar / Bloomberg terminal) */
-  --paper:        #121511;  /* matte dark charcoal */
-  --surface:      #1B1F19;  /* dark panels, table rows */
-  --surface-alt:  #242921;  /* zebra rows, table headers */
-  --input-bg:     #171B15;  /* form inputs */
-  --ink:          #EAE7DC;  /* crisp white/ivory text */
-  --ink-muted:    #8F9585;  /* muted secondary text */
-  --line:         #383F30;  /* strong borders */
-  --line-soft:    #282E22;  /* hairlines */
+  /* Utilitarian High-Precision Dark Mode (Tactical Radar / Bloomberg Terminal) */
+  --paper:        #0E110D;  /* deep obsidian matte background */
+  --surface:      #161A14;  /* dark panels, table rows */
+  --surface-alt:  #1E231B;  /* zebra rows, table headers */
+  --input-bg:     #121510;  /* form inputs */
+  --ink:          #EAE8DC;  /* crisp ivory text */
+  --ink-muted:    #8D9483;  /* muted secondary text */
+  --line:         #333A2C;  /* strong technical borders */
+  --line-soft:    #22271D;  /* hairlines */
 
-  --olive:        #71814F;  /* primary action */
-  --olive-dark:   #546039;
-  --steel:        #6D7D8E;  /* secondary / info */
-  --amber:        #D89B2B;  /* warning, focus ring */
-  --red:          #C2483B;  /* error, overdue, destructive */
-  --green:        #507A44;  /* ok, paid, active */
+  /* Glowing Tactical Accents */
+  --olive:        #788A53;  /* primary tactical olive */
+  --olive-dark:   #59663E;
+  --steel:        #718294;  /* secondary slate */
+  --cyan:         #00E5FF;  /* vivid tactical cyan */
+  --cobalt:       #60A5FA;  /* electric blue for contracts */
+  --emerald:      #10B981;  /* phosphor green for live states */
+  --amber:        #F59E0B;  /* tactical amber */
+  --red:          #EF4444;  /* neon alert red */
+  --green:        #10B981;
+  --purple:       #A78BFA;  /* tactical purple */
 }
 
 /* Base resets for utilitarian language */
@@ -52,8 +62,6 @@
   border-radius: 0 !important;
   box-shadow: none !important;
   text-shadow: none !important;
-  transition: none !important;
-  animation: none !important;
 }
 
 body {

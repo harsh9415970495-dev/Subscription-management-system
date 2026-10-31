@@ -37,9 +37,13 @@ export default {
         olive: 'var(--olive)',
         'olive-dark': 'var(--olive-dark)',
         steel: 'var(--steel)',
+        cyan: 'var(--cyan)',
+        cobalt: 'var(--cobalt)',
+        emerald: 'var(--emerald)',
         amber: 'var(--amber)',
         red: 'var(--red)',
         green: 'var(--green)',
+        purple: 'var(--purple)',
       },
       fontFamily: {
         mono: ['var(--font-mono)'],

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from './Button';
 
 export interface Column<T> {
@@ -30,17 +31,22 @@ export function DataTable<T extends Record<string, unknown>>({
 }: DataTableProps<T>) {
   if (isLoading) {
     return (
-      <div className="border border-line bg-surface p-6 font-mono text-xs text-ink-muted text-center">
-        LOADING…
+      <div className="border border-line bg-surface p-6 font-mono text-xs text-ink-muted text-center flex items-center justify-center gap-2">
+        <motion.span
+          animate={{ opacity: [1, 0.3, 1] }}
+          transition={{ repeat: Infinity, duration: 1 }}
+          className="w-2 h-2 bg-olive"
+        />
+        <span>LOADING DATA STREAM…</span>
       </div>
     );
   }
 
   return (
-    <div className={`border border-line overflow-hidden flex flex-col ${className}`}>
+    <div className={`border border-line overflow-hidden flex flex-col bg-surface ${className}`}>
       {onExportCsv && (
         <div className="bg-surface-alt border-b border-line px-3 py-1.5 flex justify-end">
-          <Button variant="outline" size="sm" onClick={onExportCsv}>
+          <Button variant="cyan" size="sm" onClick={onExportCsv}>
             EXPORT CSV
           </Button>
         </div>
@@ -70,17 +76,20 @@ export function DataTable<T extends Record<string, unknown>>({
               <tr>
                 <td
                   colSpan={columns.length}
-                  className="px-3 py-6 text-center text-ink-muted uppercase"
+                  className="px-3 py-6 text-center text-ink-muted uppercase tracking-wider"
                 >
                   {emptyText}
                 </td>
               </tr>
             ) : (
               data.map((row, idx) => (
-                <tr
+                <motion.tr
                   key={idx}
+                  initial={{ opacity: 0, y: 2 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.1, delay: Math.min(idx * 0.02, 0.3) }}
                   onClick={() => onRowClick && onRowClick(row)}
-                  className={`h-8 hover:bg-[#E4E2D6] ${
+                  className={`h-8 transition-colors duration-75 hover:bg-olive/15 dark:hover:bg-olive/20 ${
                     idx % 2 === 1 ? 'bg-surface-alt' : 'bg-surface'
                   } ${onRowClick ? 'cursor-pointer' : ''}`}
                 >
@@ -101,7 +110,7 @@ export function DataTable<T extends Record<string, unknown>>({
                       </td>
                     );
                   })}
-                </tr>
+                </motion.tr>
               ))
             )}
           </tbody>

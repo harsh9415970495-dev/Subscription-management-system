@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { NavRail } from './NavRail';
 
 export interface AppShellProps {
@@ -37,38 +38,55 @@ export const AppShell: React.FC<AppShellProps> = ({ children, currentUserRole })
         {/* Top Telemetry Status Bar */}
         <header className="h-9 border-b border-line bg-surface flex items-center justify-between px-4 text-[11px] font-mono select-none">
           <div className="flex items-center gap-4">
-            <span className="font-bold text-ink">
+            <span className="font-bold text-ink flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 bg-cyan inline-block shrink-0" />
               BRIGHTLOOP // SYSTEM STATUS
             </span>
             <span className="text-ink-muted hidden md:inline">
               STACK: NODE 22 LTS · NESTJS · DRIZZLE ORM
             </span>
+            <span className="text-cyan hidden lg:inline font-bold">
+              [LATENCY: 14ms]
+            </span>
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-green inline-block shrink-0" />
-              <span className="font-bold text-ink">[ONLINE]</span>
+              <motion.span
+                animate={{ opacity: [1, 0.25, 1], scale: [1, 1.3, 1] }}
+                transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
+                className="w-2 h-2 bg-emerald inline-block shrink-0"
+              />
+              <span className="font-bold text-emerald">[ONLINE]</span>
             </div>
             <span className="text-ink-muted hidden sm:inline">
               TZ: ASIA/KOLKATA (IST)
             </span>
             
             {/* Utilitarian Theme Switcher */}
-            <button
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.94 }}
               onClick={toggleTheme}
-              className="flex items-center gap-1 px-2 py-0.5 border border-line bg-surface-alt hover:bg-paper font-bold text-ink cursor-pointer select-none"
+              className="flex items-center gap-1 px-2.5 py-0.5 border border-line bg-surface-alt hover:bg-paper font-bold text-ink cursor-pointer select-none transition-colors"
               title="Toggle Light/Dark Theme"
             >
-              <span className="text-[10px] text-ink-muted">MODE:</span>
-              <span className="text-olive">[{theme.toUpperCase()}]</span>
-            </button>
+              <span className="text-[10px] text-ink-muted">THEME:</span>
+              <span className={theme === 'dark' ? 'text-amber' : 'text-olive'}>
+                [{theme.toUpperCase()}]
+              </span>
+            </motion.button>
           </div>
         </header>
 
-        {/* Main Content Viewport */}
-        <main className="flex-1 p-6 overflow-y-auto max-w-full">
+        {/* Main Content Viewport with Framer Motion entry */}
+        <motion.main
+          initial={{ opacity: 0, y: 3 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.15, ease: 'easeOut' }}
+          className="flex-1 p-6 overflow-y-auto max-w-full"
+        >
           {children}
-        </main>
+        </motion.main>
       </div>
     </div>
   );

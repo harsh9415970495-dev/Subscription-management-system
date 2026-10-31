@@ -282,17 +282,24 @@ export const ProductsPage: React.FC = () => {
     {
       key: 'type',
       header: 'TYPE',
-      render: (row) => (
-        <span className="font-mono text-xs font-bold text-steel">
-          [{row.type}]
-        </span>
-      ),
+      render: (row) => {
+        let typeColor = 'text-cyan bg-cyan/10 border-cyan/40';
+        if (row.type === 'SERVICE') typeColor = 'text-cobalt bg-cobalt/10 border-cobalt/40';
+        else if (row.type === 'ADD_ON') typeColor = 'text-olive bg-olive/10 border-olive/40';
+        else if (row.type === 'PHYSICAL') typeColor = 'text-purple bg-purple/10 border-purple/40';
+
+        return (
+          <span className={`font-mono text-[10px] font-bold border px-1.5 py-0.5 ${typeColor}`}>
+            [{row.type}]
+          </span>
+        );
+      },
     },
     {
       key: 'variants',
       header: 'VARIANTS',
       render: (row) => (
-        <span className="font-mono text-xs tabular-nums text-ink">
+        <span className={`font-mono text-xs tabular-nums font-semibold ${row.variants.length > 0 ? 'text-emerald' : 'text-ink-muted'}`}>
           {row.variants.length > 0 ? `[${row.variants.length} VAR]` : '[STANDALONE]'}
         </span>
       ),
@@ -333,7 +340,7 @@ export const ProductsPage: React.FC = () => {
             setActiveProduct(row);
             setSimVariantId('none');
           }}
-          className={`font-mono text-xs px-2 py-0.5 border border-line ${
+          className={`font-mono text-xs px-2.5 py-0.5 border border-line cursor-pointer transition-colors ${
             currentProduct?.id === row.id
               ? 'bg-olive text-paper font-bold'
               : 'bg-surface hover:bg-surface-alt text-ink'
@@ -354,7 +361,7 @@ export const ProductsPage: React.FC = () => {
         actions={
           isAdmin && (
             <Button
-              variant="primary"
+              variant="cyan"
               onClick={() => setIsProductDialogOpen(true)}
             >
               [+] NEW PRODUCT
@@ -365,24 +372,34 @@ export const ProductsPage: React.FC = () => {
 
       {/* Top Stat Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Panel title="TOTAL PRODUCTS">
-          <StatBlock label="ITEMS" value={products.length.toString()} />
-        </Panel>
-        <Panel title="ACTIVE VARIANTS">
-          <StatBlock
-            label="VARIANTS"
-            value={products.reduce((acc, p) => acc + p.variants.length, 0).toString()}
-          />
-        </Panel>
-        <Panel title="SOFTWARE COMMODITIES">
-          <StatBlock
-            label="COUNT"
-            value={products.filter((p) => p.type === 'SOFTWARE').length.toString()}
-          />
-        </Panel>
-        <Panel title="CURRENCY">
-          <StatBlock label="BASE" value="INR (₹)" />
-        </Panel>
+        <StatBlock
+          label="TOTAL PRODUCTS"
+          value={products.length.toString()}
+          subtext="Configured catalog items"
+          accent="cobalt"
+          change="CATALOG ACTIVE"
+        />
+        <StatBlock
+          label="ACTIVE VARIANTS"
+          value={products.reduce((acc, p) => acc + p.variants.length, 0).toString()}
+          subtext="Dynamic surcharge models"
+          accent="emerald"
+          change="+₹560 ODOO RULE"
+        />
+        <StatBlock
+          label="SOFTWARE COMMODITIES"
+          value={products.filter((p) => p.type === 'SOFTWARE').length.toString()}
+          subtext="Digital licenses & suites"
+          accent="cyan"
+          change="ERP READY"
+        />
+        <StatBlock
+          label="STATUTORY CURRENCY"
+          value="INR (PAISE)"
+          subtext="Zero-float integer unit"
+          accent="olive"
+          change="[STRICT]"
+        />
       </div>
 
       {/* Product Type Filter Bar */}

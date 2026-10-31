@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export interface ToastProps {
   message: string;
@@ -35,7 +36,11 @@ export const Toast: React.FC<ToastProps> = ({
   }
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -8 }}
+      transition={{ duration: 0.15 }}
       className={`bg-surface border-2 ${borderColor} p-2.5 font-mono text-xs text-ink flex items-center justify-between select-none ${className}`}
     >
       <div className="flex items-center gap-2">
@@ -50,6 +55,6 @@ export const Toast: React.FC<ToastProps> = ({
           [×]
         </button>
       )}
-    </div>
+    </motion.div>
   );
 };

@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './shared/database/database.module';
 import { QueueModule } from './shared/queue/queue.module';
 import { SharedAuthModule } from './shared/auth';
+import { EmailModule } from './shared/email/email.module';
 import { HealthModule } from './health/health.module';
 
 // 12 Domain Modules
@@ -23,6 +24,7 @@ import { AuditModule } from './modules/audit';
     DatabaseModule,
     QueueModule,
     SharedAuthModule,
+    EmailModule,
     HealthModule,
     IdentityModule,
     CustomersModule,

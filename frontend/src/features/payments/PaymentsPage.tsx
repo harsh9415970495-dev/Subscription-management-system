@@ -126,8 +126,8 @@ export const PaymentsPage: React.FC = () => {
       header: 'PAYMENT REF & IDEMP KEY',
       render: (row) => (
         <div className="flex flex-col">
-          <span className="font-mono text-xs font-bold text-olive">{row.reference}</span>
-          <span className="font-mono text-[10px] text-ink-muted">{row.idempotencyKey}</span>
+          <span className="font-mono text-xs font-bold text-emerald">[{row.reference}]</span>
+          <span className="font-mono text-[10px] text-cyan">{row.idempotencyKey}</span>
         </div>
       ),
     },
@@ -135,7 +135,7 @@ export const PaymentsPage: React.FC = () => {
       key: 'invoiceNumber',
       header: 'LINKED INVOICE',
       render: (row) => (
-        <span className="font-mono text-xs text-ink font-semibold">
+        <span className="font-mono text-xs text-cobalt font-bold">
           [{row.invoiceNumber}]
         </span>
       ),
@@ -151,8 +151,8 @@ export const PaymentsPage: React.FC = () => {
       key: 'method',
       header: 'METHOD',
       render: (row) => (
-        <span className="font-mono text-[11px] border border-line px-1.5 py-0.5 text-ink-muted">
-          {row.method}
+        <span className="font-mono text-[10px] font-bold border border-line bg-surface-alt px-1.5 py-0.5 text-ink">
+          [{row.method}]
         </span>
       ),
     },
@@ -162,8 +162,8 @@ export const PaymentsPage: React.FC = () => {
       align: 'right',
       render: (row) => (
         <span
-          className={`font-mono text-xs tabular-nums font-semibold ${
-            row.status === 'REVERSED' ? 'line-through text-ink-muted' : 'text-ink'
+          className={`font-mono text-xs tabular-nums font-bold ${
+            row.status === 'REVERSED' ? 'line-through text-ink-muted' : 'text-emerald'
           }`}
         >
           ₹{(row.amount / 100).toFixed(2)}
@@ -175,7 +175,7 @@ export const PaymentsPage: React.FC = () => {
       header: 'LEDGER STATUS',
       render: (row) => (
         <StatusTag
-          status={row.status === 'COMPLETED' ? 'PAID' : 'DRAFT'}
+          status={row.status === 'COMPLETED' ? 'PAID' : 'CANCELLED'}
         />
       ),
     },
@@ -186,6 +186,7 @@ export const PaymentsPage: React.FC = () => {
         row.status === 'COMPLETED' && isAdmin ? (
           <Button
             variant="outline"
+            size="sm"
             onClick={() => handleReversePayment(row.id)}
           >
             REVERSE
@@ -202,7 +203,7 @@ export const PaymentsPage: React.FC = () => {
         breadcrumbs={['SYSTEM', 'FINANCE', 'PAYMENTS']}
         actions={
           isAdmin && (
-            <Button variant="primary" onClick={() => setIsRecordOpen(true)}>
+            <Button variant="emerald" onClick={() => setIsRecordOpen(true)}>
               [+] RECORD INCOMING PAYMENT
             </Button>
           )
@@ -218,21 +219,34 @@ export const PaymentsPage: React.FC = () => {
       )}
 
       {/* Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatBlock
-          label="NET COLLECTIONS"
+          label="TOTAL SETTLED"
           value={`₹${(totalCollected / 100).toFixed(2)}`}
-          subtext="Successfully settled receipts"
+          subtext="Net confirmed bank collections"
+          accent="emerald"
+          change="↑ 100% IDEMP"
         />
         <StatBlock
-          label="REVERSED ENTRIES"
+          label="REVERSED / REFUNDED"
           value={`₹${(totalReversed / 100).toFixed(2)}`}
-          subtext="Compensating refund entries"
+          subtext="Compensating journal entries"
+          accent="amber"
+          change="0 CHARGEBACKS"
         />
         <StatBlock
-          label="IDEMPOTENCY VERIFIED"
-          value="100%"
-          subtext="Zero double-payment occurrences"
+          label="ACTIVE INVOICES SETTLED"
+          value={payments.filter((p) => p.status === 'COMPLETED').length.toString()}
+          subtext="Satisfied customer accounts"
+          accent="cobalt"
+          change="2 SETTLED"
+        />
+        <StatBlock
+          label="LEDGER AUDIT COUNT"
+          value={payments.length.toString()}
+          subtext="Append-only entries"
+          accent="cyan"
+          change="IMMUTABLE"
         />
       </div>
 

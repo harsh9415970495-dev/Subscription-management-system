@@ -1,0 +1,49 @@
+services:
+  # 1. Backend Web Service (Node.js NestJS API)
+  - type: web
+    name: brightloop-backend
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm --prefix backend run build
+    startCommand: npm --prefix backend run start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: BASE_CURRENCY
+        value: INR
+      - key: DATABASE_URL
+        sync: false # Set your Supabase pooled connection string (port 6543)
+      - key: DATABASE_URL_DIRECT
+        sync: false # Set your Supabase direct connection string (port 5432)
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 15m
+      - key: REFRESH_TOKEN_SECRET
+        generateValue: true
+      - key: REFRESH_TOKEN_EXPIRES_IN
+        value: 7d
+      # Free HTTP Email Service (Bypasses Render SMTP port blocking)
+      - key: RESEND_API_KEY
+        sync: false # Free from https://resend.com
+      - key: EMAIL_FROM
+        value: "Brightloop Billing <onboarding@resend.dev>"
+
+  # 2. Frontend Static Site (Vite React SPA)
+  - type: web
+    name: brightloop-frontend
+    env: static
+    plan: free
+    region: oregon
+    buildCommand: npm install && npm --prefix frontend run build
+    staticPublishPath: ./frontend/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_BASE_URL
+        sync: false # Set to https://brightloop-backend.onrender.com/api/v1

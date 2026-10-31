@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import {
   Button,
   Column,
@@ -204,9 +205,9 @@ export const SubscriptionsPage: React.FC = () => {
       render: (row) => (
         <button
           onClick={() => setSelectedSub(row)}
-          className="font-mono text-xs font-bold text-olive hover:underline text-left cursor-pointer"
+          className="font-mono text-xs font-bold text-cobalt hover:text-cyan text-left cursor-pointer transition-colors"
         >
-          {row.number}
+          [{row.number}]
         </button>
       ),
     },
@@ -223,7 +224,7 @@ export const SubscriptionsPage: React.FC = () => {
       render: (row) => (
         <div className="flex flex-col">
           <span className="text-xs text-ink">{row.planName}</span>
-          <span className="font-mono text-[10px] text-ink-muted">[{row.billingPeriod}]</span>
+          <span className="font-mono text-[10px] text-cyan font-semibold">[{row.billingPeriod}]</span>
         </div>
       ),
     },
@@ -232,7 +233,7 @@ export const SubscriptionsPage: React.FC = () => {
       header: 'RECURRING AMOUNT',
       align: 'right',
       render: (row) => (
-        <span className="font-mono text-xs tabular-nums text-ink font-semibold">
+        <span className="font-mono text-xs tabular-nums text-ink font-bold">
           ₹{(row.recurringAmount / 100).toFixed(2)}
         </span>
       ),
@@ -241,20 +242,12 @@ export const SubscriptionsPage: React.FC = () => {
       key: 'status',
       header: 'FSM STATUS',
       render: (row) => (
-        <StatusTag
-          status={
-            row.status === 'ACTIVE'
-              ? 'ACTIVE'
-              : row.status === 'CONFIRMED'
-              ? 'CONFIRMED'
-              : row.status === 'PAUSED'
-              ? 'OVERDUE'
-              : 'DRAFT'
-          }
-        />
+        <StatusTag status={row.status} />
       ),
     },
   ];
+
+  const ORDERED_STEPS: SubscriptionStatus[] = ['DRAFT', 'QUOTATION', 'CONFIRMED', 'ACTIVE', 'CLOSED'];
 
   return (
     <div className="flex flex-col gap-6 max-w-7xl mx-auto py-6">
@@ -264,7 +257,7 @@ export const SubscriptionsPage: React.FC = () => {
         breadcrumbs={['SYSTEM', 'SALES', 'SUBSCRIPTIONS']}
         actions={
           isAdmin && (
-            <Button variant="primary" onClick={() => setIsNewSubOpen(true)}>
+            <Button variant="cyan" onClick={() => setIsNewSubOpen(true)}>
               [+] NEW SUBSCRIPTION / QUOTATION
             </Button>
           )
@@ -285,21 +278,29 @@ export const SubscriptionsPage: React.FC = () => {
           label="ACTIVE CONTRACTS"
           value={subscriptions.filter((s) => s.status === 'ACTIVE').length.toString()}
           subtext="Generating recurring invoices"
+          accent="emerald"
+          change="↑ LIVE"
         />
         <StatBlock
           label="QUOTATIONS / DRAFTS"
           value={subscriptions.filter((s) => s.status === 'QUOTATION' || s.status === 'DRAFT').length.toString()}
           subtext="Pending client approval"
+          accent="amber"
+          change="1 PENDING"
         />
         <StatBlock
           label="PAUSED CONTRACTS"
           value={subscriptions.filter((s) => s.status === 'PAUSED').length.toString()}
           subtext="Temporarily halted billing"
+          accent="red"
+          change="0 OVERDUE"
         />
         <StatBlock
           label="ESTIMATED MRR"
           value="₹1,75,600"
           subtext="Normalized monthly recurring"
+          accent="cyan"
+          change="+14.2% MoM"
         />
       </div>
 
@@ -311,7 +312,7 @@ export const SubscriptionsPage: React.FC = () => {
             <div className="flex gap-2 font-mono text-xs">
               {selectedSub.status === 'DRAFT' && (
                 <Button
-                  variant="primary"
+                  variant="cyan"
                   onClick={() => handleStateTransition(selectedSub.id, 'QUOTATION')}
                 >
                   SEND QUOTATION →
@@ -319,7 +320,7 @@ export const SubscriptionsPage: React.FC = () => {
               )}
               {selectedSub.status === 'QUOTATION' && (
                 <Button
-                  variant="primary"
+                  variant="emerald"
                   onClick={() => handleStateTransition(selectedSub.id, 'CONFIRMED')}
                 >
                   CONFIRM QUOTATION →
@@ -327,7 +328,7 @@ export const SubscriptionsPage: React.FC = () => {
               )}
               {selectedSub.status === 'CONFIRMED' && (
                 <Button
-                  variant="primary"
+                  variant="emerald"
                   onClick={() => handleStateTransition(selectedSub.id, 'ACTIVE')}
                 >
                   ACTIVATE CONTRACT →
@@ -336,19 +337,19 @@ export const SubscriptionsPage: React.FC = () => {
               {selectedSub.status === 'ACTIVE' && (
                 <>
                   <Button
-                    variant="secondary"
+                    variant="amber"
                     onClick={() => handleStateTransition(selectedSub.id, 'PAUSED')}
                   >
                     PAUSE CONTRACT
                   </Button>
                   <Button
-                    variant="secondary"
+                    variant="destructive"
                     onClick={() => handleStateTransition(selectedSub.id, 'CLOSED')}
                   >
                     CLOSE CONTRACT
                   </Button>
                   <Button
-                    variant="primary"
+                    variant="cyan"
                     onClick={() => handleStateTransition(selectedSub.id, 'RENEWED')}
                   >
                     RENEW
@@ -357,7 +358,7 @@ export const SubscriptionsPage: React.FC = () => {
               )}
               {selectedSub.status === 'PAUSED' && (
                 <Button
-                  variant="primary"
+                  variant="emerald"
                   onClick={() => handleStateTransition(selectedSub.id, 'ACTIVE')}
                 >
                   RESUME CONTRACT →
@@ -367,30 +368,51 @@ export const SubscriptionsPage: React.FC = () => {
           }
         >
           {/* FSM Horizontal Lifecycle Progression */}
-          <div className="border border-line bg-canvas-muted p-4 mb-4 flex flex-col gap-2">
-            <span className="font-mono text-[10px] text-ink-muted uppercase">
-              FSM STATE PIPELINE (STRICT DETERMINISTIC ORDER)
-            </span>
-            <div className="flex items-center gap-2 overflow-x-auto text-xs font-mono">
-              {(['DRAFT', 'QUOTATION', 'CONFIRMED', 'ACTIVE', 'CLOSED'] as SubscriptionStatus[]).map(
-                (step, idx) => {
-                  const isCurrent = selectedSub.status === step;
-                  return (
-                    <React.Fragment key={step}>
-                      <span
-                        className={`px-2 py-1 border border-line ${
-                          isCurrent
-                            ? 'bg-olive text-canvas font-bold'
-                            : 'bg-sand text-ink-muted'
-                        }`}
-                      >
-                        [{step}]
-                      </span>
-                      {idx < 4 && <span className="text-ink-muted">→</span>}
-                    </React.Fragment>
-                  );
+          <div className="border border-line bg-surface-alt p-4 mb-4 flex flex-col gap-2">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[10px] text-ink-muted uppercase font-bold tracking-wider">
+                // FSM STATE PIPELINE (STRICT DETERMINISTIC ORDER)
+              </span>
+              <span className="font-mono text-[10px] text-cyan font-bold">
+                CURRENT: [{selectedSub.status}]
+              </span>
+            </div>
+            <div className="flex items-center gap-2 overflow-x-auto text-xs font-mono py-1">
+              {ORDERED_STEPS.map((step, idx) => {
+                const isCurrent = selectedSub.status === step;
+                const currentIdx = ORDERED_STEPS.indexOf(selectedSub.status as SubscriptionStatus);
+                const isPassed = currentIdx > idx;
+
+                let badgeStyle = 'bg-surface text-ink-muted border-line';
+                if (isCurrent) {
+                  if (step === 'ACTIVE') badgeStyle = 'bg-emerald text-white font-bold border-emerald';
+                  else if (step === 'CONFIRMED') badgeStyle = 'bg-olive text-paper font-bold border-olive';
+                  else if (step === 'QUOTATION') badgeStyle = 'bg-cobalt text-white font-bold border-cobalt';
+                  else if (step === 'DRAFT') badgeStyle = 'bg-amber text-white font-bold border-amber';
+                  else if (step === 'CLOSED') badgeStyle = 'bg-red text-white font-bold border-red';
+                } else if (isPassed) {
+                  badgeStyle = 'bg-emerald/15 text-emerald border-emerald/40 font-semibold';
                 }
-              )}
+
+                return (
+                  <React.Fragment key={step}>
+                    <motion.div
+                      animate={isCurrent ? { scale: [1, 1.04, 1] } : {}}
+                      transition={isCurrent ? { repeat: Infinity, duration: 2.5 } : {}}
+                      className={`px-2.5 py-1 border flex items-center gap-1.5 ${badgeStyle}`}
+                    >
+                      {isPassed && <span className="text-[10px]">✓</span>}
+                      {isCurrent && <span className="w-1.5 h-1.5 bg-current inline-block" />}
+                      <span>[{step}]</span>
+                    </motion.div>
+                    {idx < ORDERED_STEPS.length - 1 && (
+                      <span className={`text-xs ${isPassed ? 'text-emerald' : 'text-ink-muted'}`}>
+                        →
+                      </span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
             </div>
           </div>
 

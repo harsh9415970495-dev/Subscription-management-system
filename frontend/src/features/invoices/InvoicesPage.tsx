@@ -179,9 +179,9 @@ export const InvoicesPage: React.FC = () => {
       render: (row) => (
         <button
           onClick={() => setSelectedInvoice(row)}
-          className="font-mono text-xs font-bold text-olive hover:underline text-left cursor-pointer"
+          className="font-mono text-xs font-bold text-cyan hover:underline text-left cursor-pointer transition-colors"
         >
-          {row.number}
+          [{row.number}]
         </button>
       ),
     },
@@ -191,8 +191,8 @@ export const InvoicesPage: React.FC = () => {
       render: (row) => (
         <div className="flex flex-col">
           <span className="font-bold text-xs text-ink">{row.customerName}</span>
-          <span className="font-mono text-[10px] text-ink-muted">
-            {row.subscriptionNumber || 'ADHOC'}
+          <span className="font-mono text-[10px] text-cobalt font-semibold">
+            {row.subscriptionNumber ? `[${row.subscriptionNumber}]` : '[ADHOC]'}
           </span>
         </div>
       ),
@@ -211,7 +211,7 @@ export const InvoicesPage: React.FC = () => {
       header: 'TOTAL INVOICE',
       align: 'right',
       render: (row) => (
-        <span className="font-mono text-xs tabular-nums text-ink font-semibold">
+        <span className="font-mono text-xs tabular-nums text-ink font-bold">
           ₹{(row.totalAmount / 100).toFixed(2)}
         </span>
       ),
@@ -223,7 +223,7 @@ export const InvoicesPage: React.FC = () => {
       render: (row) => (
         <span
           className={`font-mono text-xs tabular-nums font-bold ${
-            row.amountDue > 0 ? 'text-red-500' : 'text-ink-muted'
+            row.amountDue > 0 ? 'text-red' : 'text-emerald'
           }`}
         >
           ₹{(row.amountDue / 100).toFixed(2)}
@@ -234,17 +234,7 @@ export const InvoicesPage: React.FC = () => {
       key: 'status',
       header: 'STATUS',
       render: (row) => (
-        <StatusTag
-          status={
-            row.status === 'PAID'
-              ? 'PAID'
-              : row.status === 'CONFIRMED'
-              ? 'CONFIRMED'
-              : row.status === 'OVERDUE'
-              ? 'OVERDUE'
-              : 'DRAFT'
-          }
-        />
+        <StatusTag status={row.status} />
       ),
     },
   ];
@@ -271,21 +261,29 @@ export const InvoicesPage: React.FC = () => {
           label="TOTAL INVOICED"
           value={`₹${(totalBilled / 100).toFixed(2)}`}
           subtext="Gross receivables generated"
+          accent="cobalt"
+          change="₹22.13L"
         />
         <StatBlock
           label="TOTAL COLLECTED"
           value={`₹${(totalCollected / 100).toFixed(2)}`}
           subtext="Settled via payments"
+          accent="emerald"
+          change="↑ 89% SETTLED"
         />
         <StatBlock
-          label="OUTSTANDING BALANCE"
+          label="OUTSTANDING"
           value={`₹${(totalOutstanding / 100).toFixed(2)}`}
-          subtext="Pending payment settlement"
+          subtext="Pending payment reception"
+          accent="amber"
+          change="₹2,360 DUE"
         />
         <StatBlock
           label="OVERDUE INVOICES"
           value={overdueCount.toString()}
-          subtext="Passed statutory due date"
+          subtext="Requires dunning follow-up"
+          accent="red"
+          change="1 ACCOUNT"
         />
       </div>
 

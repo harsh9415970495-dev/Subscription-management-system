@@ -151,21 +151,29 @@ export const ReportsPage: React.FC = () => {
           label="MRR (NORMALIZED)"
           value="₹1,75,600"
           subtext="Active monthly recurring revenue"
+          accent="cyan"
+          change="+14.2% MoM"
         />
         <StatBlock
           label="ARR RUN-RATE"
           value="₹21,07,200"
           subtext="Annualized recurring projection"
+          accent="cobalt"
+          change="₹21.07L ANNUAL"
         />
         <StatBlock
           label="REVENUE RETENTION"
           value="98.4%"
-          subtext="Negative churn rate"
+          subtext="Negative net churn rate"
+          accent="emerald"
+          change="↑ TOP DECILE"
         />
         <StatBlock
           label="AVG REVENUE / ACCOUNT"
           value="₹43,900"
           subtext="Blended contract value"
+          accent="olive"
+          change="4 ACCOUNTS"
         />
       </div>
 
@@ -174,44 +182,72 @@ export const ReportsPage: React.FC = () => {
         title="RECEIVABLES AGING SCHEDULE (STATUTORY INR)"
       >
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 font-mono text-xs">
-          <div className="border border-line p-4 bg-canvas-muted">
-            <span className="text-ink-muted block text-[10px] uppercase font-bold">
-              CURRENT (0 - 30 DAYS)
+          <div className="border border-line border-t-4 border-t-emerald p-4 bg-surface-alt flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-ink-muted block text-[10px] uppercase font-bold tracking-wider">
+                  CURRENT (0 - 30 DAYS)
+                </span>
+                <span className="text-[9px] font-bold text-emerald">[OK]</span>
+              </div>
+              <span className="text-xl font-bold text-ink block mt-1.5 tabular-nums">
+                ₹10,650.00
+              </span>
+            </div>
+            <span className="text-[10px] text-ink-muted border-t border-line-soft pt-2 mt-2">
+              1 pending invoice (Globex Robotics)
             </span>
-            <span className="text-lg font-bold text-ink block mt-1 tabular-nums">
-              ₹10,650.00
-            </span>
-            <span className="text-[10px] text-ink-muted">1 pending invoice (Globex Robotics)</span>
           </div>
 
-          <div className="border border-line p-4 bg-canvas-muted">
-            <span className="text-ink-muted block text-[10px] uppercase font-bold">
-              31 - 60 DAYS OVERDUE
+          <div className="border border-line border-t-4 border-t-amber p-4 bg-surface-alt flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-ink-muted block text-[10px] uppercase font-bold tracking-wider">
+                  31 - 60 DAYS OVERDUE
+                </span>
+                <span className="text-[9px] font-bold text-amber">[WARNING]</span>
+              </div>
+              <span className="text-xl font-bold text-amber block mt-1.5 tabular-nums">
+                ₹2,360.00
+              </span>
+            </div>
+            <span className="text-[10px] text-ink-muted border-t border-line-soft pt-2 mt-2">
+              1 overdue bill (Soylent Bio Labs)
             </span>
-            <span className="text-lg font-bold text-olive block mt-1 tabular-nums">
-              ₹2,360.00
-            </span>
-            <span className="text-[10px] text-ink-muted">1 overdue bill (Soylent Bio Labs)</span>
           </div>
 
-          <div className="border border-line p-4 bg-canvas-muted">
-            <span className="text-ink-muted block text-[10px] uppercase font-bold">
-              61 - 90 DAYS OVERDUE
+          <div className="border border-line border-t-4 border-t-olive p-4 bg-surface-alt flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-ink-muted block text-[10px] uppercase font-bold tracking-wider">
+                  61 - 90 DAYS OVERDUE
+                </span>
+                <span className="text-[9px] font-bold text-ink-muted">[NONE]</span>
+              </div>
+              <span className="text-xl font-bold text-ink-muted block mt-1.5 tabular-nums">
+                ₹0.00
+              </span>
+            </div>
+            <span className="text-[10px] text-ink-muted border-t border-line-soft pt-2 mt-2">
+              Zero delinquent accounts
             </span>
-            <span className="text-lg font-bold text-ink-muted block mt-1 tabular-nums">
-              ₹0.00
-            </span>
-            <span className="text-[10px] text-ink-muted">Zero delinquent accounts</span>
           </div>
 
-          <div className="border border-line p-4 bg-canvas-muted">
-            <span className="text-ink-muted block text-[10px] uppercase font-bold">
-              90+ DAYS (BAD DEBT RISK)
+          <div className="border border-line border-t-4 border-t-red p-4 bg-surface-alt flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between">
+                <span className="text-ink-muted block text-[10px] uppercase font-bold tracking-wider">
+                  90+ DAYS (BAD DEBT RISK)
+                </span>
+                <span className="text-[9px] font-bold text-red">[CRITICAL]</span>
+              </div>
+              <span className="text-xl font-bold text-ink-muted block mt-1.5 tabular-nums">
+                ₹0.00
+              </span>
+            </div>
+            <span className="text-[10px] text-ink-muted border-t border-line-soft pt-2 mt-2">
+              Zero defaults on ledger
             </span>
-            <span className="text-lg font-bold text-ink-muted block mt-1 tabular-nums">
-              ₹0.00
-            </span>
-            <span className="text-[10px] text-ink-muted">Zero write-off required</span>
           </div>
         </div>
       </Panel>

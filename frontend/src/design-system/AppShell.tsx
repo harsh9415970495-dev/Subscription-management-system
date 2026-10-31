@@ -11,7 +11,7 @@ export const AppShell: React.FC<AppShellProps> = ({ children, currentUserRole })
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('bl_theme');
     if (saved === 'dark' || saved === 'light') return saved;
-    return 'light';
+    return 'dark';
   });
 
   useEffect(() => {

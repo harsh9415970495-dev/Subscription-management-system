@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { AppShell, PageHeader, Panel } from '../design-system';
+import { AppShell } from '../design-system';
 import { AuthProvider, useAuth } from '../features/auth/AuthContext';
 import { ForgotPasswordPage } from '../features/auth/ForgotPasswordPage';
 import { LoginPage } from '../features/auth/LoginPage';
@@ -10,24 +10,16 @@ import { RegisterPage } from '../features/auth/RegisterPage';
 import { ResetPasswordPage } from '../features/auth/ResetPasswordPage';
 import { KitPage } from '../features/kit/KitPage';
 import { StaffListPage } from '../features/staff/StaffListPage';
+import { CustomersPage } from '../features/customers/CustomersPage';
 import { ProductsPage } from '../features/catalog/ProductsPage';
 import { TaxesPage } from '../features/taxation/TaxesPage';
-
-const PlaceholderScreen: React.FC<{ name: string; phase: string }> = ({ name, phase }) => (
-  <div className="flex flex-col gap-4 max-w-7xl mx-auto py-6">
-    <PageHeader
-      title={name}
-      subtitle={`Scheduled for implementation in ${phase}.`}
-      breadcrumbs={['SYSTEM', name]}
-    />
-    <Panel title="MODULE SPECIFICATION">
-      <div className="font-mono text-xs text-ink-muted">
-        This screen will be activated upon reaching its designated phase gate.
-        Review <a href="/_kit" className="text-olive underline font-bold">99 DESIGN KIT</a> to inspect visual components.
-      </div>
-    </Panel>
-  </div>
-);
+import { PlansPage } from '../features/plans/PlansPage';
+import { DiscountsPage } from '../features/discounts/DiscountsPage';
+import { SubscriptionsPage } from '../features/subscriptions/SubscriptionsPage';
+import { TemplatesPage } from '../features/templates/TemplatesPage';
+import { InvoicesPage } from '../features/invoices/InvoicesPage';
+import { PaymentsPage } from '../features/payments/PaymentsPage';
+import { ReportsPage } from '../features/reports/ReportsPage';
 
 const RoutesContent: React.FC = () => {
   const { user } = useAuth();
@@ -62,18 +54,30 @@ const RoutesContent: React.FC = () => {
           path="/customers"
           element={
             <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
-              <PlaceholderScreen name="CUSTOMERS" phase="PHASE 1" />
+              <CustomersPage />
             </ProtectedRoute>
           }
         />
 
-        {/* Design System Reference Kit */}
-        <Route path="/_kit" element={<KitPage />} />
+        {/* Sales & Subscriptions */}
+        <Route
+          path="/subscriptions"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF', 'CUSTOMER']}>
+              <SubscriptionsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/templates"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <TemplatesPage />
+            </ProtectedRoute>
+          }
+        />
 
-        {/* Subsequent Phase Placeholders */}
-        <Route path="/subscriptions" element={<PlaceholderScreen name="SUBSCRIPTIONS" phase="PHASE 4" />} />
-        <Route path="/invoices" element={<PlaceholderScreen name="INVOICES" phase="PHASE 5" />} />
-        <Route path="/payments" element={<PlaceholderScreen name="PAYMENTS" phase="PHASE 6" />} />
+        {/* Catalog, Plans, Discounts & Taxation */}
         <Route
           path="/products"
           element={
@@ -82,7 +86,14 @@ const RoutesContent: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/plans" element={<PlaceholderScreen name="PLANS" phase="PHASE 3" />} />
+        <Route
+          path="/plans"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <PlansPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/taxes"
           element={
@@ -91,9 +102,45 @@ const RoutesContent: React.FC = () => {
             </ProtectedRoute>
           }
         />
-        <Route path="/discounts" element={<PlaceholderScreen name="DISCOUNTS" phase="PHASE 3" />} />
-        <Route path="/templates" element={<PlaceholderScreen name="TEMPLATES" phase="PHASE 4" />} />
-        <Route path="/reports" element={<PlaceholderScreen name="REPORTS" phase="PHASE 8" />} />
+        <Route
+          path="/discounts"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <DiscountsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Finance, Billing & Payments */}
+        <Route
+          path="/invoices"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF', 'CUSTOMER']}>
+              <InvoicesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payments"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <PaymentsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Reporting & Audit */}
+        <Route
+          path="/reports"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <ReportsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Design System Reference Kit */}
+        <Route path="/_kit" element={<KitPage />} />
 
         {/* Default route */}
         <Route path="/" element={<Navigate to="/profile" replace />} />

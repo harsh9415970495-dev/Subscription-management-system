@@ -60,4 +60,27 @@ describe('Row Level Security (RLS) Enforcement Test', () => {
     expect(unsecure.length).toBeGreaterThan(0);
     expect(unsecure[0].tablename).toBe('unprotected_table');
   });
+
+  it('statically verifies that every CREATE TABLE in migrations has ENABLE ROW LEVEL SECURITY', async () => {
+    const fs = await import('fs');
+    const path = await import('path');
+    const migrationsDir = path.resolve(__dirname, '../migrations');
+    if (!fs.existsSync(migrationsDir)) return;
+
+    const files = fs.readdirSync(migrationsDir).filter(f => f.endsWith('.sql'));
+    for (const file of files) {
+      const content = fs.readFileSync(path.join(migrationsDir, file), 'utf-8');
+      const createTableRegex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_]+)\.([a-zA-Z0-9_]+)/gi;
+      let match;
+      while ((match = createTableRegex.exec(content)) !== null) {
+        const schema = match[1];
+        const table = match[2];
+        const rlsPattern = new RegExp(`ALTER\\s+TABLE\\s+${schema}\\.${table}\\s+ENABLE\\s+ROW\\s+LEVEL\\s+SECURITY`, 'i');
+        expect(
+          rlsPattern.test(content),
+          `Migration ${file} creates table ${schema}.${table} without explicit ALTER TABLE ... ENABLE ROW LEVEL SECURITY;`,
+        ).toBe(true);
+      }
+    }
+  });
 });

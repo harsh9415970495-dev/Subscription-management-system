@@ -28,6 +28,11 @@ export async function apiRequest<T>(
     headers.set('Content-Type', 'application/json');
   }
 
+  const token = localStorage.getItem('bl_token');
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`);
+  }
+
   const response = await fetch(url, {
     ...options,
     headers,
@@ -55,3 +60,28 @@ export async function apiRequest<T>(
 
   return (await response.json()) as T;
 }
+
+export const apiClient = {
+  get: async <T>(path: string) => {
+    const data = await apiRequest<T>(path, { method: 'GET' });
+    return { data };
+  },
+  post: async <T>(path: string, body?: unknown) => {
+    const data = await apiRequest<T>(path, {
+      method: 'POST',
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    return { data };
+  },
+  patch: async <T>(path: string, body?: unknown) => {
+    const data = await apiRequest<T>(path, {
+      method: 'PATCH',
+      body: body ? JSON.stringify(body) : undefined,
+    });
+    return { data };
+  },
+  delete: async <T>(path: string) => {
+    const data = await apiRequest<T>(path, { method: 'DELETE' });
+    return { data };
+  },
+};

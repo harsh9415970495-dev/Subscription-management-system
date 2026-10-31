@@ -2,7 +2,8 @@ import React from 'react';
 
 export interface ToastProps {
   message: string;
-  type?: 'info' | 'warning' | 'error' | 'success';
+  type?: 'info' | 'warning' | 'error' | 'success' | 'ok';
+  variant?: 'info' | 'warning' | 'error' | 'success' | 'ok';
   onDismiss?: () => void;
   className?: string;
 }
@@ -10,22 +11,24 @@ export interface ToastProps {
 export const Toast: React.FC<ToastProps> = ({
   message,
   type = 'info',
+  variant,
   onDismiss,
   className = '',
 }) => {
+  const resolvedType = variant || type;
   let borderColor = 'border-line';
   let badge = '[INFO]';
   let badgeColor = 'text-steel';
 
-  if (type === 'error') {
+  if (resolvedType === 'error') {
     borderColor = 'border-red';
     badge = '[ERR]';
     badgeColor = 'text-red';
-  } else if (type === 'warning') {
+  } else if (resolvedType === 'warning') {
     borderColor = 'border-amber';
     badge = '[WARN]';
     badgeColor = 'text-amber';
-  } else if (type === 'success') {
+  } else if (resolvedType === 'success' || resolvedType === 'ok') {
     borderColor = 'border-green';
     badge = '[OK]';
     badgeColor = 'text-green';

@@ -1,6 +1,12 @@
 import { drizzle, PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+// Use namespace import so CommonJS output becomes `postgres_1 = require('postgres')`
+// and we call the constructor via the `.default` fallback below.
+import * as postgresModule from 'postgres';
 import { CONFIG } from '../config';
+
+// Works in both ESM (postgresModule.default) and CJS (postgresModule itself is callable)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postgres = ((postgresModule as any).default ?? postgresModule) as (url: string, opts?: any) => any;
 
 export const DB_CLIENT = 'DB_CLIENT';
 export const DIRECT_DB_CLIENT = 'DIRECT_DB_CLIENT';

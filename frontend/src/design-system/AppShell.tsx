@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavRail } from './NavRail';
 
 export interface AppShellProps {
@@ -7,6 +7,29 @@ export interface AppShellProps {
 }
 
 export const AppShell: React.FC<AppShellProps> = ({ children, currentUserRole }) => {
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const saved = localStorage.getItem('bl_theme');
+    if (saved === 'dark' || saved === 'light') return saved;
+    return 'light';
+  });
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.body.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.classList.remove('dark');
+    }
+    localStorage.setItem('bl_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  };
+
   return (
     <div className="flex min-h-screen bg-paper text-ink font-mono">
       <NavRail currentUserRole={currentUserRole} />
@@ -29,9 +52,16 @@ export const AppShell: React.FC<AppShellProps> = ({ children, currentUserRole })
             <span className="text-ink-muted hidden sm:inline">
               TZ: ASIA/KOLKATA (IST)
             </span>
-            <span className="border border-line px-1.5 py-0.5 text-ink-muted text-[10px]">
-              ZERO-FLOAT / ADR-0002
-            </span>
+            
+            {/* Utilitarian Theme Switcher */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-1 px-2 py-0.5 border border-line bg-surface-alt hover:bg-paper font-bold text-ink cursor-pointer select-none"
+              title="Toggle Light/Dark Theme"
+            >
+              <span className="text-[10px] text-ink-muted">MODE:</span>
+              <span className="text-olive">[{theme.toUpperCase()}]</span>
+            </button>
           </div>
         </header>
 

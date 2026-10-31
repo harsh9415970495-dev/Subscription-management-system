@@ -5,6 +5,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     path.resolve(__dirname, 'index.html'),
     path.resolve(__dirname, 'src/**/*.{js,ts,jsx,tsx}'),
@@ -25,6 +26,10 @@ export default {
         paper: 'var(--paper)',
         surface: 'var(--surface)',
         'surface-alt': 'var(--surface-alt)',
+        'input-bg': 'var(--input-bg)',
+        canvas: 'var(--surface)',
+        'canvas-muted': 'var(--surface-alt)',
+        sand: 'var(--surface-alt)',
         ink: 'var(--ink)',
         'ink-muted': 'var(--ink-muted)',
         line: 'var(--line)',

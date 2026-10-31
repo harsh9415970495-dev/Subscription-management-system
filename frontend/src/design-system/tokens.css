@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  /* Muted, field-equipment palette */
+  /* Utilitarian Light Mode Palette (Field-equipment concrete/khaki) */
   --paper:        #E3E1D8;  /* page background — concrete/khaki */
   --surface:      #EDECE5;  /* panels, table rows */
   --surface-alt:  #D6D4C9;  /* zebra rows, table headers */
+  --input-bg:     #F5F4EE;  /* form inputs */
   --ink:          #1B1E19;  /* primary text */
   --ink-muted:    #5A5E52;  /* secondary text, labels */
   --line:         #2A2D26;  /* strong borders */
@@ -24,6 +25,26 @@
 
   --radius: 0px;            /* ALWAYS zero */
   --grid: 8px;              /* base spacing unit */
+}
+
+:root[data-theme="dark"],
+.dark {
+  /* Utilitarian High-Precision Dark Mode (Tactical Radar / Bloomberg terminal) */
+  --paper:        #121511;  /* matte dark charcoal */
+  --surface:      #1B1F19;  /* dark panels, table rows */
+  --surface-alt:  #242921;  /* zebra rows, table headers */
+  --input-bg:     #171B15;  /* form inputs */
+  --ink:          #EAE7DC;  /* crisp white/ivory text */
+  --ink-muted:    #8F9585;  /* muted secondary text */
+  --line:         #383F30;  /* strong borders */
+  --line-soft:    #282E22;  /* hairlines */
+
+  --olive:        #71814F;  /* primary action */
+  --olive-dark:   #546039;
+  --steel:        #6D7D8E;  /* secondary / info */
+  --amber:        #D89B2B;  /* warning, focus ring */
+  --red:          #C2483B;  /* error, overdue, destructive */
+  --green:        #507A44;  /* ok, paid, active */
 }
 
 /* Base resets for utilitarian language */

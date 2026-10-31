@@ -15,13 +15,13 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
     return (
       <select
         ref={ref}
-        className={`h-8 px-2.5 py-1 font-mono text-xs text-ink bg-[#F5F4EE] border cursor-pointer ${
+        className={`h-8 px-2.5 py-1 font-mono text-xs text-ink bg-input-bg border cursor-pointer ${
           error ? 'border-red ring-1 ring-red' : 'border-line'
         } focus:outline-none focus:ring-2 focus:ring-amber focus:ring-offset-2 ${className}`}
         {...props}
       >
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value}>
+          <option key={opt.value} value={opt.value} className="bg-surface text-ink">
             {opt.label}
           </option>
         ))}

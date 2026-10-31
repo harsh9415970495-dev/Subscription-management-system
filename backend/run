@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+/**
+ * Render Fallback Runner
+ * Catches accidental 'node run start' command in Render dashboard
+ * and executes the compiled NestJS application.
+ */
+require('./dist/src/main.js');

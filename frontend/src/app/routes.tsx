@@ -10,6 +10,8 @@ import { RegisterPage } from '../features/auth/RegisterPage';
 import { ResetPasswordPage } from '../features/auth/ResetPasswordPage';
 import { KitPage } from '../features/kit/KitPage';
 import { StaffListPage } from '../features/staff/StaffListPage';
+import { ProductsPage } from '../features/catalog/ProductsPage';
+import { TaxesPage } from '../features/taxation/TaxesPage';
 
 const PlaceholderScreen: React.FC<{ name: string; phase: string }> = ({ name, phase }) => (
   <div className="flex flex-col gap-4 max-w-7xl mx-auto py-6">
@@ -72,9 +74,23 @@ const RoutesContent: React.FC = () => {
         <Route path="/subscriptions" element={<PlaceholderScreen name="SUBSCRIPTIONS" phase="PHASE 4" />} />
         <Route path="/invoices" element={<PlaceholderScreen name="INVOICES" phase="PHASE 5" />} />
         <Route path="/payments" element={<PlaceholderScreen name="PAYMENTS" phase="PHASE 6" />} />
-        <Route path="/products" element={<PlaceholderScreen name="PRODUCTS" phase="PHASE 2" />} />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <ProductsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/plans" element={<PlaceholderScreen name="PLANS" phase="PHASE 3" />} />
-        <Route path="/taxes" element={<PlaceholderScreen name="TAXES" phase="PHASE 2" />} />
+        <Route
+          path="/taxes"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN', 'STAFF']}>
+              <TaxesPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/discounts" element={<PlaceholderScreen name="DISCOUNTS" phase="PHASE 3" />} />
         <Route path="/templates" element={<PlaceholderScreen name="TEMPLATES" phase="PHASE 4" />} />
         <Route path="/reports" element={<PlaceholderScreen name="REPORTS" phase="PHASE 8" />} />

@@ -2,7 +2,8 @@ import React from 'react';
 import { Button } from './Button';
 
 export interface DialogProps {
-  open: boolean;
+  open?: boolean;
+  isOpen?: boolean;
   title: string;
   onClose: () => void;
   children: React.ReactNode;
@@ -11,12 +12,14 @@ export interface DialogProps {
 
 export const Dialog: React.FC<DialogProps> = ({
   open,
+  isOpen,
   title,
   onClose,
   children,
   actions,
 }) => {
-  if (!open) return null;
+  const isDialogActive = open ?? isOpen ?? false;
+  if (!isDialogActive) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">

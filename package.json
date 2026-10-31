@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "pnpm --parallel --filter backend --filter frontend dev",
     "build": "pnpm --recursive run build",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "start:backend": "npm --prefix backend run start",
     "lint": "pnpm --recursive run lint",
     "typecheck": "pnpm --recursive run typecheck",
     "test": "pnpm --recursive run test",

@@ -1,6 +1,8 @@
 import * as argon2 from 'argon2';
-import postgres from 'postgres';
+import * as postgresModule from 'postgres';
 import { CONFIG } from '../config';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postgres = ((postgresModule as any).default ?? postgresModule) as (url: string, opts?: any) => any;
 
 async function seed() {
   console.log('[Seed] Connecting to database:', CONFIG.databaseUrlDirect);

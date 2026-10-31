@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import postgres from 'postgres';
+import * as postgresModule from 'postgres';
 import { CONFIG } from '../config';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postgres = ((postgresModule as any).default ?? postgresModule) as (url: string, opts?: any) => any;
 
 async function runMigrations() {
   console.log('[Migrations] Connecting via direct URL:', CONFIG.databaseUrlDirect);

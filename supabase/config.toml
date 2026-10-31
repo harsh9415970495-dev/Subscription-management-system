@@ -1,0 +1,23 @@
+project_id = "brightloop-local"
+
+[api]
+enabled = true
+port = 54321
+schemas = []
+
+[db]
+port = 5432
+shadow_port = 54320
+major_version = 15
+
+[db.pooler]
+enabled = true
+port = 6543
+pool_mode = "transaction"
+default_pool_size = 10
+
+[auth]
+enabled = false # Supabase Auth is explicitly not used
+
+[storage]
+enabled = false

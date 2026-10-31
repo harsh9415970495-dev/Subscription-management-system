@@ -1,0 +1,11 @@
+services:
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: brightloop_mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"   # SMTP port
+      - "8025:8025"   # Web UI
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: "" # In-memory

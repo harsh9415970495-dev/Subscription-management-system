@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   /* Muted, field-equipment palette */
   --paper:        #E3E1D8;  /* page background — concrete/khaki */

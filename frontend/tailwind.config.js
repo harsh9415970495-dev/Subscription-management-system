@@ -1,7 +1,14 @@
-import type { Config } from 'tailwindcss';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    path.resolve(__dirname, 'index.html'),
+    path.resolve(__dirname, 'src/**/*.{js,ts,jsx,tsx}'),
+  ],
   theme: {
     borderRadius: {
       none: '0px',
@@ -39,4 +46,4 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config;
+};
